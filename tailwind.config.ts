@@ -8,9 +8,25 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        shareTech: ["var(--font-share-tech-mono)"],
+      },
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+      },
+      transform: {
+        "3d-open": "rotateX(-35deg) rotateY(45deg) rotate3d(1, 0, 0, 180deg)",
+      },
+      animation: {
+        fade: "fadeIn .5s ease-in-out",
+      },
+
+      keyframes: {
+        fadeIn: {
+          from: { opacity: "0" },
+          to: { opacity: "1" },
+        },
       },
     },
   },
