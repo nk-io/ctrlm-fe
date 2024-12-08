@@ -50,7 +50,7 @@ const CoverButton = () => {
       }
 
       const data = await response.json();
-      alert(data.message);
+      console.info(data.message);
     } catch (error) {
       console.error("Error sending notification:", error);
       alert("Error sending notification. Please try again.");
