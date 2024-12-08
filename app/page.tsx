@@ -76,6 +76,12 @@ const Home = () => {
 
   // If not authenticated, show password input
   if (!isAuthenticated) {
+    const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>): void => {
+      if (e.key === "Enter") {
+        handleLogin();
+      }
+    };
+
     return (
       <div className="flex items-center justify-center h-screen">
         <div className="w-96 p-6 shadow rounded">
@@ -88,6 +94,7 @@ const Home = () => {
             className="border p-2 w-full mb-4 text-yellow-400"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            onKeyDown={handleKeyPress}
             placeholder="Password"
           />
           <button
