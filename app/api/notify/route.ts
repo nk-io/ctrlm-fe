@@ -1,27 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-import jwt from "jsonwebtoken";
+import { createAuthMiddleware } from "../middleware";
 
-const SECRET_KEY = process.env.SECRET_KEY || "your-secret-key";
+const authMiddleware = createAuthMiddleware(true); // Enable API key access
 
 export async function POST(req: NextRequest) {
-  const cookies = req.headers.get("cookie");
-  const token = cookies
-    ?.split("; ")
-    .find((c) => c.startsWith("auth_token="))
-    ?.split("=")[1];
-
-  if (!token) {
-    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-  }
-
-  try {
-    const decoded = jwt.verify(token, SECRET_KEY);
-    if (!decoded || typeof decoded !== "object" || !decoded.authenticated) {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-    }
-  } catch (err) {
-    console.error("Token verification failed:", err);
-    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+  const middlewareResponse = await authMiddleware(req);
+  if (middlewareResponse.status !== 200) {
+    return middlewareResponse;
   }
 
   const body = await req.json();
